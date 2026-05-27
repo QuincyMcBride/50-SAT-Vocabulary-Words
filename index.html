@@ -539,8 +539,7 @@ function checkAnswer(correct,button){
         feedback.innerHTML="✅ Correct!";
 
         if(streak>0 && streak%5===0){
-            feedback.innerHTML+=
-            `<br>🔥 ${streak} streak!`;
+            feedback.innerHTML += `<br>🔥 ${streak} streak!`;
         }
 
     }else{
@@ -549,18 +548,22 @@ function checkAnswer(correct,button){
 
         button.classList.add("wrong");
 
-        let correctAnswer = "";
+        let correctAnswer;
 
-        if(currentFormat==="word"){
-            // Definition -> Word
-            correctAnswer = currentCorrect.word;
-        }else{
-            // Word -> Definition
+        // If user is matching definitions to words
+        if(currentFormat === "definition"){
+
+            // Show the correct definition
             correctAnswer = currentCorrect.definition;
+
+        }else{
+
+            // Show the correct word
+            correctAnswer = currentCorrect.word;
         }
 
-        feedback.innerHTML=
-        `❌ Incorrect<br><br>
+        feedback.innerHTML = `
+        ❌ Incorrect<br><br>
         Correct Answer:<br>
         <strong>${correctAnswer}</strong>`;
 
