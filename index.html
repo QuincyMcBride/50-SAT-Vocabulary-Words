@@ -27,7 +27,9 @@ body{
     padding:20px;
 }
 
-/* BACKGROUND ANIMATION */
+/* =========================
+   BACKGROUND
+========================= */
 
 .background{
     position:fixed;
@@ -41,7 +43,7 @@ body{
     border-radius:50%;
     filter:blur(70px);
     opacity:0.35;
-    animation:float 12s ease-in-out infinite;
+    animation:float 12s infinite ease-in-out;
 }
 
 .blob1{
@@ -62,12 +64,12 @@ body{
 }
 
 .blob3{
-    width:250px;
-    height:250px;
+    width:260px;
+    height:260px;
     background:#facc15;
-    top:40%;
-    left:60%;
-    animation-delay:8s;
+    top:45%;
+    left:55%;
+    animation-delay:7s;
 }
 
 @keyframes float{
@@ -75,25 +77,27 @@ body{
         transform:translateY(0px) translateX(0px);
     }
     50%{
-        transform:translateY(-40px) translateX(25px);
+        transform:translateY(-40px) translateX(20px);
     }
     100%{
         transform:translateY(0px) translateX(0px);
     }
 }
 
-/* MAIN CONTAINER */
+/* =========================
+   CARD
+========================= */
 
 .container{
     width:100%;
-    max-width:850px;
+    max-width:900px;
 }
 
 .card{
     background:rgba(255,255,255,0.08);
     backdrop-filter:blur(16px);
-    border:1px solid rgba(255,255,255,0.1);
     border-radius:28px;
+    border:1px solid rgba(255,255,255,0.08);
     padding:35px;
     box-shadow:0 0 40px rgba(0,0,0,0.4);
     animation:fadeIn 0.5s ease;
@@ -110,19 +114,21 @@ body{
     }
 }
 
-/* TEXT */
+/* =========================
+   TEXT
+========================= */
 
 h1{
     text-align:center;
     font-size:3rem;
+    margin-bottom:10px;
     color:#facc15;
-    margin-bottom:12px;
 }
 
 .subtitle{
     text-align:center;
-    color:#cbd5e1;
     margin-bottom:35px;
+    color:#cbd5e1;
 }
 
 label{
@@ -131,7 +137,9 @@ label{
     font-weight:600;
 }
 
-/* INPUTS */
+/* =========================
+   INPUTS
+========================= */
 
 select,input{
     width:100%;
@@ -144,13 +152,15 @@ select,input{
     font-size:1rem;
 }
 
-/* BUTTONS */
+/* =========================
+   BUTTONS
+========================= */
 
 button{
     width:100%;
+    padding:16px;
     border:none;
     border-radius:18px;
-    padding:16px;
     margin-top:12px;
     font-size:1rem;
     font-weight:700;
@@ -176,14 +186,21 @@ button:hover{
     background:#475569;
 }
 
-/* GAME UI */
+.shop-btn{
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+}
+
+/* =========================
+   GAME STATS
+========================= */
 
 .stats{
     display:flex;
     justify-content:space-between;
     margin-bottom:22px;
-    flex-wrap:wrap;
     gap:10px;
+    flex-wrap:wrap;
     font-weight:600;
 }
 
@@ -193,27 +210,45 @@ button:hover{
     background:#1e293b;
     border-radius:999px;
     overflow:hidden;
-    margin-bottom:28px;
+    margin-bottom:24px;
 }
 
 .progress-bar{
-    height:100%;
     width:0%;
+    height:100%;
     background:linear-gradient(90deg,#38bdf8,#22c55e);
-    transition:0.35s;
+    transition:0.3s;
 }
+
+.timer-container{
+    width:100%;
+    height:10px;
+    background:#1e293b;
+    border-radius:999px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.timer-bar{
+    width:100%;
+    height:100%;
+    background:linear-gradient(90deg,#ef4444,#facc15);
+}
+
+/* =========================
+   QUESTION
+========================= */
 
 .question-box{
     background:rgba(255,255,255,0.05);
-    border-radius:22px;
     padding:30px;
+    border-radius:22px;
     margin-bottom:24px;
 }
 
 .question-title{
     color:#facc15;
     margin-bottom:15px;
-    font-size:1.1rem;
 }
 
 .question-text{
@@ -221,7 +256,17 @@ button:hover{
     line-height:1.6;
 }
 
-/* ANSWER STATES */
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback{
+    text-align:center;
+    margin-top:20px;
+    min-height:60px;
+    font-size:1.3rem;
+    font-weight:700;
+}
 
 .correct{
     background:#22c55e !important;
@@ -247,19 +292,13 @@ button:hover{
     100%{transform:translateX(0);}
 }
 
-.feedback{
-    margin-top:25px;
-    text-align:center;
-    font-size:1.3rem;
-    font-weight:700;
-    min-height:60px;
-}
-
 .hidden{
     display:none;
 }
 
-/* GAME OVER */
+/* =========================
+   GAME OVER
+========================= */
 
 .game-over{
     text-align:center;
@@ -276,7 +315,9 @@ button:hover{
     margin-bottom:20px;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:700px){
 
@@ -295,8 +336,6 @@ button:hover{
 
 <body>
 
-<!-- ANIMATED BACKGROUND -->
-
 <div class="background">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
@@ -305,146 +344,182 @@ button:hover{
 
 <div class="container">
 
-<!-- MENU SCREEN -->
+<!-- =========================
+     MENU SCREEN
+========================= -->
 
 <div class="card" id="menuScreen">
 
-    <h1>⚡ SAT Vocab Challenge ⚡</h1>
+<h1>⚡ SAT Vocab Challenge ⚡</h1>
 
-    <p class="subtitle">
-        Modern SAT Vocabulary Practice
-    </p>
+<p class="subtitle">
+    Blooket/Gimkit Inspired SAT Practice
+</p>
 
-    <label>Question Format</label>
+<label>Question Format</label>
 
-    <select id="formatSelect">
-        <option value="word">
-            Definition → Word
-        </option>
+<select id="formatSelect">
+    <option value="word">
+        Definition → Word
+    </option>
 
-        <option value="definition">
-            Word → Definition
-        </option>
-    </select>
+    <option value="definition">
+        Word → Definition
+    </option>
+</select>
 
-    <label>Game Mode</label>
+<label>Game Mode</label>
 
-    <select id="modeSelect">
-        <option value="infinite">
-            Infinite
-        </option>
+<select id="modeSelect">
+    <option value="classic">
+        Classic
+    </option>
 
-        <option value="lives">
-            Lives Mode
-        </option>
-    </select>
+    <option value="speed">
+        Speed Mode
+    </option>
 
-    <label>Lives</label>
+    <option value="cash">
+        Cash Mode
+    </option>
 
-    <input
-        type="number"
-        id="livesInput"
-        value="3"
-        min="1"
-    >
+    <option value="lives">
+        Lives Mode
+    </option>
+</select>
 
-    <button
-        class="start-btn"
-        onclick="startGame()"
-    >
-        Start Game
-    </button>
+<label>Lives (Lives Mode)</label>
+
+<input
+    type="number"
+    id="livesInput"
+    value="3"
+    min="1"
+>
+
+<button
+    class="start-btn"
+    onclick="startGame()"
+>
+    Start Game
+</button>
 
 </div>
 
-<!-- GAME SCREEN -->
+<!-- =========================
+     GAME SCREEN
+========================= -->
 
 <div class="card hidden" id="gameScreen">
 
-    <div class="stats">
+<div class="stats">
 
-        <div>
-            ⭐ Score:
-            <span id="score">0</span>
-        </div>
+<div>
+⭐ Score:
+<span id="score">0</span>
+</div>
 
-        <div>
-            🔥 Streak:
-            <span id="streak">0</span>
-        </div>
+<div>
+🔥 Streak:
+<span id="streak">0</span>
+</div>
 
-        <div id="livesDisplay">
-            ❤️ 3
-        </div>
+<div>
+💰 Coins:
+<span id="coins">0</span>
+</div>
 
-    </div>
-
-    <div class="progress-container">
-        <div
-            class="progress-bar"
-            id="progressBar"
-        ></div>
-    </div>
-
-    <div class="question-box">
-
-        <div
-            class="question-title"
-            id="questionTitle"
-        ></div>
-
-        <div
-            class="question-text"
-            id="questionText"
-        ></div>
-
-    </div>
-
-    <div id="choices"></div>
-
-    <div
-        class="feedback"
-        id="feedback"
-    ></div>
-
-    <button
-        class="choice-btn"
-        onclick="goToMenu()"
-    >
-        Main Menu
-    </button>
+<div id="livesDisplay">
+❤️ 3
+</div>
 
 </div>
 
-<!-- GAME OVER SCREEN -->
+<div class="progress-container">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="timer-container hidden" id="timerContainer">
+<div class="timer-bar" id="timerBar"></div>
+</div>
+
+<div class="question-box">
 
 <div
-    class="card hidden game-over"
-    id="gameOverScreen"
+class="question-title"
+id="questionTitle"
+></div>
+
+<div
+class="question-text"
+id="questionText"
+></div>
+
+</div>
+
+<div id="choices"></div>
+
+<div
+class="feedback"
+id="feedback"
+></div>
+
+<button
+class="shop-btn"
+onclick="buyExtraLife()"
+>
+Buy Extra Life (500 Coins)
+</button>
+
+<button
+class="choice-btn"
+onclick="goToMenu()"
+>
+Main Menu
+</button>
+
+</div>
+
+<!-- =========================
+     GAME OVER
+========================= -->
+
+<div
+class="card hidden game-over"
+id="gameOverScreen"
 >
 
-    <h2>Game Over</h2>
+<h2>Game Over</h2>
 
-    <div class="final-score">
-        Final Score:
-        <span id="finalScore"></span>
-    </div>
+<div class="final-score">
+Final Score:
+<span id="finalScore"></span>
+</div>
 
-    <p id="finalMessage"></p>
+<p id="finalMessage"></p>
 
-    <button
-        class="start-btn"
-        onclick="restartGame()"
-    >
-        Play Again
-    </button>
+<br>
 
-    <button
-        class="choice-btn"
-        onclick="goToMenu()"
-    >
-        Main Menu
-    </button>
+<div>
+🏆 High Score:
+<span id="highScore"></span>
+</div>
+
+<br>
+
+<button
+class="start-btn"
+onclick="restartGame()"
+>
+Play Again
+</button>
+
+<button
+class="choice-btn"
+onclick="goToMenu()"
+>
+Main Menu
+</button>
 
 </div>
 
@@ -533,6 +608,7 @@ const vocabData = words.map((word,index)=>({
 
 let score = 0;
 let streak = 0;
+let coins = 0;
 let lives = 3;
 let total = 0;
 
@@ -540,203 +616,341 @@ let currentCorrect = null;
 let currentMode = "";
 let currentFormat = "";
 
+let timer;
+let timeLeft = 100;
+
+/* =========================
+   HIGH SCORE
+========================= */
+
+let highScore =
+localStorage.getItem("satHighScore") || 0;
+
+document.getElementById("highScore")
+.innerText = highScore;
+
 /* =========================
    START GAME
 ========================= */
 
 function startGame(){
 
-    currentMode =
-        document.getElementById("modeSelect").value;
+score = 0;
+streak = 0;
+coins = 0;
+total = 0;
 
-    currentFormat =
-        document.getElementById("formatSelect").value;
+currentMode =
+document.getElementById("modeSelect").value;
 
-    lives =
-        parseInt(
-            document.getElementById("livesInput").value
-        );
+currentFormat =
+document.getElementById("formatSelect").value;
 
-    score = 0;
-    streak = 0;
-    total = 0;
+lives =
+parseInt(
+document.getElementById("livesInput").value
+);
 
-    document.getElementById("menuScreen")
-        .classList.add("hidden");
+document.getElementById("menuScreen")
+.classList.add("hidden");
 
-    document.getElementById("gameOverScreen")
-        .classList.add("hidden");
+document.getElementById("gameOverScreen")
+.classList.add("hidden");
 
-    document.getElementById("gameScreen")
-        .classList.remove("hidden");
+document.getElementById("gameScreen")
+.classList.remove("hidden");
 
-    updateStats();
-    generateQuestion();
+updateStats();
+generateQuestion();
+
 }
 
 /* =========================
-   GENERATE QUESTION
+   QUESTIONS
 ========================= */
 
 function generateQuestion(){
 
-    const randomIndex =
-        Math.floor(
-            Math.random() * vocabData.length
-        );
+clearInterval(timer);
 
-    currentCorrect =
-        vocabData[randomIndex];
+const randomIndex =
+Math.floor(Math.random()*vocabData.length);
 
-    let options = [currentCorrect];
+currentCorrect =
+vocabData[randomIndex];
 
-    while(options.length < 4){
+let options = [currentCorrect];
 
-        const randomOption =
-            vocabData[
-                Math.floor(
-                    Math.random() * vocabData.length
-                )
-            ];
+while(options.length < 4){
 
-        if(!options.includes(randomOption)){
-            options.push(randomOption);
-        }
-    }
+const random =
+vocabData[
+Math.floor(
+Math.random()*vocabData.length
+)
+];
 
-    options.sort(() => Math.random() - 0.5);
+if(!options.includes(random)){
+options.push(random);
+}
 
-    document.getElementById("feedback")
-        .innerHTML = "";
+}
 
-    if(currentFormat === "word"){
+options.sort(()=>Math.random()-0.5);
 
-        document.getElementById("questionTitle")
-            .innerText =
-            "Which word matches this definition?";
+document.getElementById("feedback")
+.innerHTML = "";
 
-        document.getElementById("questionText")
-            .innerText =
-            currentCorrect.definition;
+if(currentFormat === "word"){
 
-    }else{
+document.getElementById("questionTitle")
+.innerText =
+"Which word matches this definition?";
 
-        document.getElementById("questionTitle")
-            .innerText =
-            "Which definition matches this word?";
+document.getElementById("questionText")
+.innerText =
+currentCorrect.definition;
 
-        document.getElementById("questionText")
-            .innerText =
-            currentCorrect.word;
-    }
+}else{
 
-    const choices =
-        document.getElementById("choices");
+document.getElementById("questionTitle")
+.innerText =
+"Which definition matches this word?";
 
-    choices.innerHTML = "";
+document.getElementById("questionText")
+.innerText =
+currentCorrect.word;
 
-    options.forEach(option => {
+}
 
-        const button =
-            document.createElement("button");
+const choices =
+document.getElementById("choices");
 
-        button.className = "choice-btn";
+choices.innerHTML = "";
 
-        button.innerText =
-            currentFormat === "word"
-            ? option.word
-            : option.definition;
+options.forEach(option=>{
 
-        button.onclick = () => {
+const button =
+document.createElement("button");
 
-            const correct =
-                option.word === currentCorrect.word;
+button.className = "choice-btn";
 
-            checkAnswer(correct, button);
-        };
+button.innerText =
+currentFormat === "word"
+? option.word
+: option.definition;
 
-        choices.appendChild(button);
+button.onclick = ()=>{
 
-    });
+const correct =
+option.word === currentCorrect.word;
+
+checkAnswer(correct,button);
+
+};
+
+choices.appendChild(button);
+
+});
+
+/* SPEED MODE */
+
+if(currentMode === "speed"){
+
+document.getElementById("timerContainer")
+.classList.remove("hidden");
+
+startTimer();
+
+}else{
+
+document.getElementById("timerContainer")
+.classList.add("hidden");
+
+}
+
+}
+
+/* =========================
+   TIMER
+========================= */
+
+function startTimer(){
+
+timeLeft = 100;
+
+const timerBar =
+document.getElementById("timerBar");
+
+timerBar.style.width = "100%";
+
+timer = setInterval(()=>{
+
+timeLeft--;
+
+timerBar.style.width =
+timeLeft + "%";
+
+if(timeLeft <= 0){
+
+clearInterval(timer);
+
+streak = 0;
+
+document.getElementById("feedback")
+.innerHTML =
+"⏰ Time's Up!";
+
+if(currentMode === "lives"){
+lives--;
+}
+
+updateStats();
+
+setTimeout(()=>{
+
+if(currentMode==="lives" && lives<=0){
+endGame();
+}else{
+generateQuestion();
+}
+
+},1000);
+
+}
+
+},100);
+
 }
 
 /* =========================
    CHECK ANSWER
 ========================= */
 
-function checkAnswer(correct, button){
+function checkAnswer(correct,button){
 
-    const feedback =
-        document.getElementById("feedback");
+clearInterval(timer);
 
-    const buttons =
-        document.querySelectorAll(".choice-btn");
+const feedback =
+document.getElementById("feedback");
 
-    buttons.forEach(btn => btn.disabled = true);
+const buttons =
+document.querySelectorAll(".choice-btn");
 
-    total++;
+buttons.forEach(btn=>{
 
-    if(correct){
+if(btn.innerText !== "Main Menu"
+&& !btn.innerText.includes("Buy")){
+btn.disabled = true;
+}
 
-        score++;
-        streak++;
+});
 
-        button.classList.add("correct");
+total++;
 
-        feedback.innerHTML = "✅ Correct!";
+if(correct){
 
-        if(streak > 0 && streak % 5 === 0){
+score++;
+streak++;
 
-            feedback.innerHTML +=
-            `<br>🔥 ${streak} streak!`;
-        }
+let earnedCoins = 100;
 
-    }else{
+/* STREAK BONUS */
 
-        streak = 0;
+if(streak >= 5){
+earnedCoins *= 2;
+}
 
-        button.classList.add("wrong");
+coins += earnedCoins;
 
-        let correctAnswer;
+button.classList.add("correct");
 
-        if(currentFormat === "word"){
+feedback.innerHTML =
+`✅ Correct!<br>
+💰 +${earnedCoins} Coins`;
 
-            correctAnswer =
-                currentCorrect.word;
+if(streak > 0 && streak % 5 === 0){
 
-        }else{
+feedback.innerHTML +=
+`<br>🔥 ${streak} STREAK BONUS!`;
 
-            correctAnswer =
-                currentCorrect.definition;
-        }
+}
 
-        feedback.innerHTML =
-        `❌ Incorrect<br><br>
-        Correct Answer:<br>
-        <strong>${correctAnswer}</strong>`;
+}else{
 
-        if(currentMode === "lives"){
-            lives--;
-        }
-    }
+streak = 0;
 
-    updateStats();
+button.classList.add("wrong");
 
-    setTimeout(() => {
+let correctAnswer;
 
-        if(
-            currentMode === "lives"
-            && lives <= 0
-        ){
+if(currentFormat === "word"){
 
-            endGame();
+correctAnswer =
+currentCorrect.word;
 
-        }else{
+}else{
 
-            generateQuestion();
-        }
+correctAnswer =
+currentCorrect.definition;
 
-    }, 1400);
+}
+
+feedback.innerHTML =
+`❌ Incorrect<br><br>
+Correct Answer:<br>
+<strong>${correctAnswer}</strong>`;
+
+if(currentMode === "lives"){
+lives--;
+}
+
+}
+
+updateStats();
+
+setTimeout(()=>{
+
+if(currentMode === "lives"
+&& lives <= 0){
+
+endGame();
+
+}else{
+
+generateQuestion();
+
+}
+
+},1400);
+
+}
+
+/* =========================
+   SHOP
+========================= */
+
+function buyExtraLife(){
+
+if(coins >= 500){
+
+coins -= 500;
+lives++;
+
+updateStats();
+
+document.getElementById("feedback")
+.innerHTML =
+"❤️ Extra Life Purchased!";
+
+}else{
+
+document.getElementById("feedback")
+.innerHTML =
+"❌ Not enough coins!";
+
+}
+
 }
 
 /* =========================
@@ -745,73 +959,99 @@ function checkAnswer(correct, button){
 
 function updateStats(){
 
-    document.getElementById("score")
-        .innerText = score;
+document.getElementById("score")
+.innerText = score;
 
-    document.getElementById("streak")
-        .innerText = streak;
+document.getElementById("streak")
+.innerText = streak;
 
-    if(currentMode === "lives"){
+document.getElementById("coins")
+.innerText = coins;
 
-        document.getElementById("livesDisplay")
-            .innerText = `❤️ ${lives}`;
+if(currentMode === "lives"){
 
-    }else{
+document.getElementById("livesDisplay")
+.innerText =
+`❤️ ${lives}`;
 
-        document.getElementById("livesDisplay")
-            .innerText = "♾ Infinite";
-    }
+}else{
 
-    const progress =
-        (score / 50) * 100;
+document.getElementById("livesDisplay")
+.innerText =
+`♾ Infinite`;
 
-    document.getElementById("progressBar")
-        .style.width = `${progress}%`;
+}
+
+const progress =
+(score / 50) * 100;
+
+document.getElementById("progressBar")
+.style.width =
+`${progress}%`;
+
 }
 
 /* =========================
-   END GAME
+   GAME OVER
 ========================= */
 
 function endGame(){
 
-    document.getElementById("gameScreen")
-        .classList.add("hidden");
+document.getElementById("gameScreen")
+.classList.add("hidden");
 
-    document.getElementById("gameOverScreen")
-        .classList.remove("hidden");
+document.getElementById("gameOverScreen")
+.classList.remove("hidden");
 
-    document.getElementById("finalScore")
-        .innerText =
-        `${score}/${total}`;
+document.getElementById("finalScore")
+.innerText =
+`${score}/${total}`;
 
-    const percent = score / total;
+/* SAVE HIGH SCORE */
 
-    let message = "";
+if(score > highScore){
 
-    if(percent >= 0.9){
+highScore = score;
 
-        message =
-        "🏆 Incredible SAT mastery!";
+localStorage.setItem(
+"satHighScore",
+highScore
+);
 
-    }else if(percent >= 0.7){
+}
 
-        message =
-        "📚 Excellent work!";
+document.getElementById("highScore")
+.innerText =
+highScore;
 
-    }else if(percent >= 0.5){
+const percent = score / total;
 
-        message =
-        "💪 Solid effort!";
+let message = "";
 
-    }else{
+if(percent >= 0.9){
 
-        message =
-        "🔄 Keep practicing!";
-    }
+message =
+"🏆 Incredible SAT mastery!";
 
-    document.getElementById("finalMessage")
-        .innerText = message;
+}else if(percent >= 0.7){
+
+message =
+"📚 Excellent work!";
+
+}else if(percent >= 0.5){
+
+message =
+"💪 Solid effort!";
+
+}else{
+
+message =
+"🔄 Keep practicing!";
+}
+
+document.getElementById("finalMessage")
+.innerText = message;
+
 }
 
 /* =========================
@@ -819,19 +1059,22 @@ function endGame(){
 ========================= */
 
 function restartGame(){
-    startGame();
+startGame();
 }
 
 function goToMenu(){
 
-    document.getElementById("gameScreen")
-        .classList.add("hidden");
+clearInterval(timer);
 
-    document.getElementById("gameOverScreen")
-        .classList.add("hidden");
+document.getElementById("gameScreen")
+.classList.add("hidden");
 
-    document.getElementById("menuScreen")
-        .classList.remove("hidden");
+document.getElementById("gameOverScreen")
+.classList.add("hidden");
+
+document.getElementById("menuScreen")
+.classList.remove("hidden");
+
 }
 
 </script>
