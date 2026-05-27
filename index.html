@@ -2,333 +2,74 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAT Vocab Challenge</title>
+<title>SAT Vocab: Ultimate Edition</title>
 
 <style>
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Inter',sans-serif;
-}
-
 body{
-    background:linear-gradient(135deg,#0f172a,#1e293b);
-    overflow:hidden;
-    color:white;
-    min-height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    padding:20px;
-}
-
-/* =========================
-   BACKGROUND
-========================= */
-
-.background{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    z-index:-1;
-}
-
-.blob{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(70px);
-    opacity:0.35;
-    animation:float 12s infinite ease-in-out;
-}
-
-.blob1{
-    width:320px;
-    height:320px;
-    background:#38bdf8;
-    top:-80px;
-    left:-60px;
-}
-
-.blob2{
-    width:380px;
-    height:380px;
-    background:#f472b6;
-    bottom:-120px;
-    right:-80px;
-    animation-delay:4s;
-}
-
-.blob3{
-    width:260px;
-    height:260px;
-    background:#facc15;
-    top:45%;
-    left:55%;
-    animation-delay:7s;
-}
-
-@keyframes float{
-    0%{
-        transform:translateY(0px) translateX(0px);
-    }
-    50%{
-        transform:translateY(-40px) translateX(20px);
-    }
-    100%{
-        transform:translateY(0px) translateX(0px);
-    }
-}
-
-/* =========================
-   CARD
-========================= */
-
-.container{
-    width:100%;
-    max-width:900px;
+margin:0;
+font-family:Arial;
+background:#0f172a;
+color:white;
+overflow:hidden;
+text-align:center;
 }
 
 .card{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(16px);
-    border-radius:28px;
-    border:1px solid rgba(255,255,255,0.08);
-    padding:35px;
-    box-shadow:0 0 40px rgba(0,0,0,0.4);
-    animation:fadeIn 0.5s ease;
+max-width:900px;
+margin:auto;
+padding:20px;
 }
 
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(20px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-/* =========================
-   TEXT
-========================= */
-
-h1{
-    text-align:center;
-    font-size:3rem;
-    margin-bottom:10px;
-    color:#facc15;
-}
-
-.subtitle{
-    text-align:center;
-    margin-bottom:35px;
-    color:#cbd5e1;
-}
-
-label{
-    display:block;
-    margin-bottom:8px;
-    font-weight:600;
-}
-
-/* =========================
-   INPUTS
-========================= */
-
-select,input{
-    width:100%;
-    padding:15px;
-    border:none;
-    border-radius:16px;
-    margin-bottom:20px;
-    background:#334155;
-    color:white;
-    font-size:1rem;
-}
-
-/* =========================
-   BUTTONS
-========================= */
+.hidden{display:none;}
 
 button{
-    width:100%;
-    padding:16px;
-    border:none;
-    border-radius:18px;
-    margin-top:12px;
-    font-size:1rem;
-    font-weight:700;
-    cursor:pointer;
-    transition:0.25s;
+padding:12px;
+margin:5px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+font-weight:bold;
 }
 
-button:hover{
-    transform:translateY(-2px) scale(1.02);
-}
+.choice{background:#334155;color:white;}
+.choice:hover{transform:scale(1.05);}
 
-.start-btn{
-    background:linear-gradient(135deg,#facc15,#f59e0b);
-    color:black;
-}
-
-.choice-btn{
-    background:#334155;
-    color:white;
-}
-
-.choice-btn:hover{
-    background:#475569;
-}
-
-.shop-btn{
-    background:linear-gradient(135deg,#22c55e,#16a34a);
-    color:white;
-}
-
-/* =========================
-   GAME STATS
-========================= */
-
-.stats{
-    display:flex;
-    justify-content:space-between;
-    margin-bottom:22px;
-    gap:10px;
-    flex-wrap:wrap;
-    font-weight:600;
-}
-
-.progress-container{
-    width:100%;
-    height:12px;
-    background:#1e293b;
-    border-radius:999px;
-    overflow:hidden;
-    margin-bottom:24px;
-}
-
-.progress-bar{
-    width:0%;
-    height:100%;
-    background:linear-gradient(90deg,#38bdf8,#22c55e);
-    transition:0.3s;
-}
-
-.timer-container{
-    width:100%;
-    height:10px;
-    background:#1e293b;
-    border-radius:999px;
-    overflow:hidden;
-    margin-bottom:20px;
-}
-
-.timer-bar{
-    width:100%;
-    height:100%;
-    background:linear-gradient(90deg,#ef4444,#facc15);
-}
-
-/* =========================
-   QUESTION
-========================= */
-
-.question-box{
-    background:rgba(255,255,255,0.05);
-    padding:30px;
-    border-radius:22px;
-    margin-bottom:24px;
-}
-
-.question-title{
-    color:#facc15;
-    margin-bottom:15px;
-}
-
-.question-text{
-    font-size:1.45rem;
-    line-height:1.6;
-}
-
-/* =========================
-   FEEDBACK
-========================= */
-
-.feedback{
-    text-align:center;
-    margin-top:20px;
-    min-height:60px;
-    font-size:1.3rem;
-    font-weight:700;
-}
-
-.correct{
-    background:#22c55e !important;
-    animation:pulse 0.5s;
-}
-
-.wrong{
-    background:#ef4444 !important;
-    animation:shake 0.4s;
-}
+.correct{background:#22c55e!important;animation:pulse 0.3s;}
+.wrong{background:#ef4444!important;animation:shake 0.3s;}
 
 @keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.05);}
-    100%{transform:scale(1);}
+0%{transform:scale(1)}
+50%{transform:scale(1.1)}
+100%{transform:scale(1)}
 }
 
 @keyframes shake{
-    0%{transform:translateX(0);}
-    25%{transform:translateX(-6px);}
-    50%{transform:translateX(6px);}
-    75%{transform:translateX(-6px);}
-    100%{transform:translateX(0);}
+0%{transform:translateX(0)}
+25%{transform:translateX(-5px)}
+50%{transform:translateX(5px)}
+100%{transform:translateX(0)}
 }
 
-.hidden{
-    display:none;
+.boss{
+background:#7c3aed;
+animation:flash 0.5s infinite alternate;
 }
 
-/* =========================
-   GAME OVER
-========================= */
-
-.game-over{
-    text-align:center;
+@keyframes flash{
+from{filter:brightness(1)}
+to{filter:brightness(2)}
 }
 
-.game-over h2{
-    font-size:3rem;
-    color:#f87171;
-    margin-bottom:20px;
+.coin{
+position:absolute;
+animation:floatUp 1s ease-out forwards;
+color:gold;
+font-weight:bold;
 }
 
-.final-score{
-    font-size:2rem;
-    margin-bottom:20px;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:700px){
-
-    h1{
-        font-size:2rem;
-    }
-
-    .question-text{
-        font-size:1.1rem;
-    }
-
+@keyframes floatUp{
+from{transform:translateY(0);opacity:1}
+to{transform:translateY(-80px);opacity:0}
 }
 
 </style>
@@ -336,745 +77,195 @@ button:hover{
 
 <body>
 
-<div class="background">
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <div class="blob blob3"></div>
-</div>
+<div class="card" id="menu">
 
-<div class="container">
+<h1>⚡ SAT VOCAB ULTIMATE ⚡</h1>
 
-<!-- =========================
-     MENU SCREEN
-========================= -->
+<button onclick="start()">Start Game</button>
 
-<div class="card" id="menuScreen">
-
-<h1>⚡ SAT Vocab Challenge ⚡</h1>
-
-<p class="subtitle">
-    Blooket/Gimkit Inspired SAT Practice
-</p>
-
-<label>Question Format</label>
-
-<select id="formatSelect">
-    <option value="word">
-        Definition → Word
-    </option>
-
-    <option value="definition">
-        Word → Definition
-    </option>
-</select>
-
-<label>Game Mode</label>
-
-<select id="modeSelect">
-    <option value="classic">
-        Classic
-    </option>
-
-    <option value="speed">
-        Speed Mode
-    </option>
-
-    <option value="cash">
-        Cash Mode
-    </option>
-
-    <option value="lives">
-        Lives Mode
-    </option>
-</select>
-
-<label>Lives (Lives Mode)</label>
-
-<input
-    type="number"
-    id="livesInput"
-    value="3"
-    min="1"
->
-
-<button
-    class="start-btn"
-    onclick="startGame()"
->
-    Start Game
-</button>
+<h3>🏆 Leaderboard</h3>
+<div id="board"></div>
 
 </div>
 
-<!-- =========================
-     GAME SCREEN
-========================= -->
+<div class="card hidden" id="game">
 
-<div class="card hidden" id="gameScreen">
+<h2>Score: <span id="score">0</span></h2>
+<h3>Coins: <span id="coins">0</span></h3>
+<h3>Prestige: ⭐ <span id="prestige">0</span></h3>
 
-<div class="stats">
-
-<div>
-⭐ Score:
-<span id="score">0</span>
-</div>
-
-<div>
-🔥 Streak:
-<span id="streak">0</span>
-</div>
-
-<div>
-💰 Coins:
-<span id="coins">0</span>
-</div>
-
-<div id="livesDisplay">
-❤️ 3
-</div>
-
-</div>
-
-<div class="progress-container">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-
-<div class="timer-container hidden" id="timerContainer">
-<div class="timer-bar" id="timerBar"></div>
-</div>
-
-<div class="question-box">
-
-<div
-class="question-title"
-id="questionTitle"
-></div>
-
-<div
-class="question-text"
-id="questionText"
-></div>
-
-</div>
+<h3 id="question"></h3>
 
 <div id="choices"></div>
-
-<div
-class="feedback"
-id="feedback"
-></div>
-
-<button
-class="shop-btn"
-onclick="buyExtraLife()"
->
-Buy Extra Life (500 Coins)
-</button>
-
-<button
-class="choice-btn"
-onclick="goToMenu()"
->
-Main Menu
-</button>
-
-</div>
-
-<!-- =========================
-     GAME OVER
-========================= -->
-
-<div
-class="card hidden game-over"
-id="gameOverScreen"
->
-
-<h2>Game Over</h2>
-
-<div class="final-score">
-Final Score:
-<span id="finalScore"></span>
-</div>
-
-<p id="finalMessage"></p>
-
-<br>
-
-<div>
-🏆 High Score:
-<span id="highScore"></span>
-</div>
-
-<br>
-
-<button
-class="start-btn"
-onclick="restartGame()"
->
-Play Again
-</button>
-
-<button
-class="choice-btn"
-onclick="goToMenu()"
->
-Main Menu
-</button>
-
-</div>
 
 </div>
 
 <script>
 
-/* =========================
-   VOCAB DATA
-========================= */
+/* ================= DATA ================= */
 
-const words = [
-"abstract","aesthetic","alleviate","ambivalent","apathetic",
-"auspicious","benevolent","candor","cogent","comprehensive",
-"contemporary","conviction","diligent","dubious","eclectic",
-"egregious","exculpate","florid","gratuitous","hackneyed",
-"idealize","impartial","imperious","inherent","innovative",
-"inveterate","laudatory","maverick","mollify","novel",
-"obdurate","objectivity","obstinate","ornate","ostentatious",
-"paramount","penitent","pervasive","plausible","profound",
-"prosaic","quandary","rancorous","spurious","stoic",
-"superfluous","tenuous","timorous","transitory","vindicated"
+const words=[
+{w:"abstract",d:"general; not concrete",r:"common"},
+{w:"aesthetic",d:"beauty related",r:"rare"},
+{w:"alleviate",d:"to ease pain",r:"common"},
+{w:"ambivalent",d:"mixed feelings",r:"rare"},
+{w:"apathetic",d:"no emotion",r:"common"},
+{w:"egregious",d:"extremely bad",r:"epic"},
+{w:"vindicated",d:"cleared of blame",r:"legendary"}
 ];
 
-const definitions = [
-"general; not concrete",
-"having to do with the appreciation of beauty",
-"to ease a pain or a burden",
-"simultaneously feeling opposing feelings; uncertain",
-"feeling or showing little emotion",
-"favorable; promising",
-"well meaning; generous",
-"sincerity; openness",
-"convincing; reasonable",
-"large in scope or context",
-"current, modern; from the same time",
-"a fixed or strong belief",
-"marked by painstaking effort; hard-working",
-"doubtful; of unlikely authenticity",
-"made up of a variety of sources or styles",
-"conspicuously bad or offensive",
-"to free from guilt or blame",
-"describing flowery or elaborate speech",
-"given freely; unearned, unwarranted",
-"worn-out through overuse; trite",
-"to consider perfect",
-"not in favor of one side or the other; unbiased",
-"arrogantly domineering or overbearing",
-"inborn; built-in",
-"introducing something new",
-"long established; deep-rooted, habitual",
-"giving praise",
-"one who resists adherence to a group",
-"to calm or soothe",
-"strikingly new or unusual",
-"stubborn; inflexible",
-"treating facts uninfluenced by emotion",
-"stubbornly adhering to an opinion",
-"elaborately decorated",
-"describing a showy or pretentious display",
-"of chief concern or importance",
-"expressing remorse for one's misdeeds",
-"dispersed throughout",
-"seemingly valid or acceptable; credible",
-"having great depth or seriousness",
-"unimaginative; dull",
-"a state of uncertainty or perplexity",
-"hateful; marked by a deep-seated ill will",
-"not genuine; false; counterfeit",
-"indifferent to pleasure or pain; impassive",
-"extra; unnecessary",
-"having little substance or strength; unsure; weak",
-"timid; fearful about the future",
-"short-lived; temporary",
-"freed from blame"
-];
+/* ================= STATE ================= */
 
-const vocabData = words.map((word,index)=>({
-    word,
-    definition:definitions[index]
-}));
+let score=0;
+let coins=0;
+let prestige=0;
+let qCount=0;
+let current;
 
-/* =========================
-   GAME STATE
-========================= */
+/* ================= SOUND ================= */
 
-let score = 0;
-let streak = 0;
-let coins = 0;
-let lives = 3;
-let total = 0;
-
-let currentCorrect = null;
-let currentMode = "";
-let currentFormat = "";
-
-let timer;
-let timeLeft = 100;
-
-/* =========================
-   HIGH SCORE
-========================= */
-
-let highScore =
-localStorage.getItem("satHighScore") || 0;
-
-document.getElementById("highScore")
-.innerText = highScore;
-
-/* =========================
-   START GAME
-========================= */
-
-function startGame(){
-
-score = 0;
-streak = 0;
-coins = 0;
-total = 0;
-
-currentMode =
-document.getElementById("modeSelect").value;
-
-currentFormat =
-document.getElementById("formatSelect").value;
-
-lives =
-parseInt(
-document.getElementById("livesInput").value
-);
-
-document.getElementById("menuScreen")
-.classList.add("hidden");
-
-document.getElementById("gameOverScreen")
-.classList.add("hidden");
-
-document.getElementById("gameScreen")
-.classList.remove("hidden");
-
-updateStats();
-generateQuestion();
-
+function beep(freq){
+let ctx=new AudioContext();
+let o=ctx.createOscillator();
+o.frequency.value=freq;
+o.connect(ctx.destination);
+o.start();
+o.stop(ctx.currentTime+0.1);
 }
 
-/* =========================
-   QUESTIONS
-========================= */
+/* ================= GAME ================= */
 
-function generateQuestion(){
-
-clearInterval(timer);
-
-const randomIndex =
-Math.floor(Math.random()*vocabData.length);
-
-currentCorrect =
-vocabData[randomIndex];
-
-let options = [currentCorrect];
-
-while(options.length < 4){
-
-const random =
-vocabData[
-Math.floor(
-Math.random()*vocabData.length
-)
-];
-
-if(!options.includes(random)){
-options.push(random);
+function start(){
+document.getElementById("menu").classList.add("hidden");
+document.getElementById("game").classList.remove("hidden");
+next();
+loadBoard();
 }
 
+function rarityMult(r){
+if(r==="common")return 1;
+if(r==="rare")return 1.5;
+if(r==="epic")return 2;
+return 3;
 }
 
-options.sort(()=>Math.random()-0.5);
+function next(){
 
-document.getElementById("feedback")
-.innerHTML = "";
+qCount++;
 
-if(currentFormat === "word"){
+let boss=qCount%8===0;
 
-document.getElementById("questionTitle")
-.innerText =
-"Which word matches this definition?";
+current=words[Math.floor(Math.random()*words.length)];
 
-document.getElementById("questionText")
-.innerText =
-currentCorrect.definition;
-
+if(boss){
+document.getElementById("question").innerHTML="👹 BOSS ROUND: "+current.d;
+document.body.classList.add("boss");
 }else{
-
-document.getElementById("questionTitle")
-.innerText =
-"Which definition matches this word?";
-
-document.getElementById("questionText")
-.innerText =
-currentCorrect.word;
-
+document.getElementById("question").innerHTML=current.d;
+document.body.classList.remove("boss");
 }
 
-const choices =
-document.getElementById("choices");
+let choices=[current];
 
-choices.innerHTML = "";
+while(choices.length<4){
+let r=words[Math.floor(Math.random()*words.length)];
+if(!choices.includes(r))choices.push(r);
+}
 
-options.forEach(option=>{
+choices.sort(()=>Math.random()-0.5);
 
-const button =
-document.createElement("button");
+let box=document.getElementById("choices");
+box.innerHTML="";
 
-button.className = "choice-btn";
+choices.forEach(c=>{
+let b=document.createElement("button");
+b.className="choice";
+b.innerText=c.w;
 
-button.innerText =
-currentFormat === "word"
-? option.word
-: option.definition;
+b.onclick=()=>check(c,b,boss);
 
-button.onclick = ()=>{
-
-const correct =
-option.word === currentCorrect.word;
-
-checkAnswer(correct,button);
-
-};
-
-choices.appendChild(button);
-
+box.appendChild(b);
 });
-
-/* SPEED MODE */
-
-if(currentMode === "speed"){
-
-document.getElementById("timerContainer")
-.classList.remove("hidden");
-
-startTimer();
-
-}else{
-
-document.getElementById("timerContainer")
-.classList.add("hidden");
-
 }
 
-}
+function check(c,btn,boss){
 
-/* =========================
-   TIMER
-========================= */
+document.querySelectorAll("button").forEach(b=>b.disabled=true);
 
-function startTimer(){
-
-timeLeft = 100;
-
-const timerBar =
-document.getElementById("timerBar");
-
-timerBar.style.width = "100%";
-
-timer = setInterval(()=>{
-
-timeLeft--;
-
-timerBar.style.width =
-timeLeft + "%";
-
-if(timeLeft <= 0){
-
-clearInterval(timer);
-
-streak = 0;
-
-document.getElementById("feedback")
-.innerHTML =
-"⏰ Time's Up!";
-
-if(currentMode === "lives"){
-lives--;
-}
-
-updateStats();
-
-setTimeout(()=>{
-
-if(currentMode==="lives" && lives<=0){
-endGame();
-}else{
-generateQuestion();
-}
-
-},1000);
-
-}
-
-},100);
-
-}
-
-/* =========================
-   CHECK ANSWER
-========================= */
-
-function checkAnswer(correct,button){
-
-clearInterval(timer);
-
-const feedback =
-document.getElementById("feedback");
-
-const buttons =
-document.querySelectorAll(".choice-btn");
-
-buttons.forEach(btn=>{
-
-if(btn.innerText !== "Main Menu"
-&& !btn.innerText.includes("Buy")){
-btn.disabled = true;
-}
-
-});
-
-total++;
+let correct=c.w===current.w;
 
 if(correct){
 
+beep(600);
+
+let gain=100*rarityMult(current.r);
+
+if(boss)gain*=3;
+
 score++;
-streak++;
+coins+=gain+prestige*10;
 
-let earnedCoins = 100;
+btn.classList.add("correct");
 
-/* STREAK BONUS */
-
-if(streak >= 5){
-earnedCoins *= 2;
-}
-
-coins += earnedCoins;
-
-button.classList.add("correct");
-
-feedback.innerHTML =
-`✅ Correct!<br>
-💰 +${earnedCoins} Coins`;
-
-if(streak > 0 && streak % 5 === 0){
-
-feedback.innerHTML +=
-`<br>🔥 ${streak} STREAK BONUS!`;
-
-}
+spawnCoin(gain);
 
 }else{
 
-streak = 0;
+beep(200);
 
-button.classList.add("wrong");
+btn.classList.add("wrong");
 
-let correctAnswer;
-
-if(currentFormat === "word"){
-
-correctAnswer =
-currentCorrect.word;
-
-}else{
-
-correctAnswer =
-currentCorrect.definition;
-
+coins-=50;
+screenShake();
 }
 
-feedback.innerHTML =
-`❌ Incorrect<br><br>
-Correct Answer:<br>
-<strong>${correctAnswer}</strong>`;
+update();
 
-if(currentMode === "lives"){
-lives--;
+setTimeout(next,900);
 }
 
+function spawnCoin(val){
+let d=document.createElement("div");
+d.className="coin";
+d.innerText="+"+val;
+d.style.left="50%";
+document.body.appendChild(d);
+setTimeout(()=>d.remove(),1000);
 }
 
-updateStats();
-
-setTimeout(()=>{
-
-if(currentMode === "lives"
-&& lives <= 0){
-
-endGame();
-
-}else{
-
-generateQuestion();
-
+function screenShake(){
+document.body.style.transform="translateX(10px)";
+setTimeout(()=>document.body.style.transform="translateX(0)",100);
 }
 
-},1400);
+function update(){
 
+document.getElementById("score").innerText=score;
+document.getElementById("coins").innerText=coins;
+document.getElementById("prestige").innerText=prestige;
+
+if(score>=10){
+prestige++;
+score=0;
+coins=0;
+alert("🔥 PRESTIGE UP!");
+save();
+}
 }
 
-/* =========================
-   SHOP
-========================= */
-
-function buyExtraLife(){
-
-if(coins >= 500){
-
-coins -= 500;
-lives++;
-
-updateStats();
-
-document.getElementById("feedback")
-.innerHTML =
-"❤️ Extra Life Purchased!";
-
-}else{
-
-document.getElementById("feedback")
-.innerHTML =
-"❌ Not enough coins!";
-
+function save(){
+let board=JSON.parse(localStorage.getItem("board")||"[]");
+board.push(prestige);
+board.sort((a,b)=>b-a);
+board=board.slice(0,5);
+localStorage.setItem("board",JSON.stringify(board));
+loadBoard();
 }
 
-}
-
-/* =========================
-   UPDATE UI
-========================= */
-
-function updateStats(){
-
-document.getElementById("score")
-.innerText = score;
-
-document.getElementById("streak")
-.innerText = streak;
-
-document.getElementById("coins")
-.innerText = coins;
-
-if(currentMode === "lives"){
-
-document.getElementById("livesDisplay")
-.innerText =
-`❤️ ${lives}`;
-
-}else{
-
-document.getElementById("livesDisplay")
-.innerText =
-`♾ Infinite`;
-
-}
-
-const progress =
-(score / 50) * 100;
-
-document.getElementById("progressBar")
-.style.width =
-`${progress}%`;
-
-}
-
-/* =========================
-   GAME OVER
-========================= */
-
-function endGame(){
-
-document.getElementById("gameScreen")
-.classList.add("hidden");
-
-document.getElementById("gameOverScreen")
-.classList.remove("hidden");
-
-document.getElementById("finalScore")
-.innerText =
-`${score}/${total}`;
-
-/* SAVE HIGH SCORE */
-
-if(score > highScore){
-
-highScore = score;
-
-localStorage.setItem(
-"satHighScore",
-highScore
-);
-
-}
-
-document.getElementById("highScore")
-.innerText =
-highScore;
-
-const percent = score / total;
-
-let message = "";
-
-if(percent >= 0.9){
-
-message =
-"🏆 Incredible SAT mastery!";
-
-}else if(percent >= 0.7){
-
-message =
-"📚 Excellent work!";
-
-}else if(percent >= 0.5){
-
-message =
-"💪 Solid effort!";
-
-}else{
-
-message =
-"🔄 Keep practicing!";
-}
-
-document.getElementById("finalMessage")
-.innerText = message;
-
-}
-
-/* =========================
-   NAVIGATION
-========================= */
-
-function restartGame(){
-startGame();
-}
-
-function goToMenu(){
-
-clearInterval(timer);
-
-document.getElementById("gameScreen")
-.classList.add("hidden");
-
-document.getElementById("gameOverScreen")
-.classList.add("hidden");
-
-document.getElementById("menuScreen")
-.classList.remove("hidden");
-
+function loadBoard(){
+let board=JSON.parse(localStorage.getItem("board")||"[]");
+document.getElementById("board").innerHTML=
+board.map((b,i)=>`#${i+1} Prestige ${b}`).join("<br>");
 }
 
 </script>
