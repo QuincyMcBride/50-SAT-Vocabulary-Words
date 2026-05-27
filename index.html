@@ -2,273 +2,1099 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>SAT Vocab: Ultimate Edition</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Lang Vocab Challenge</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f172a;
-color:white;
-overflow:hidden;
-text-align:center;
+:root {
+  --bg: #0c0f1a;
+  --surface: rgba(255,255,255,0.06);
+  --surface-hover: rgba(255,255,255,0.1);
+  --border: rgba(255,255,255,0.1);
+  --border-strong: rgba(255,255,255,0.2);
+  --gold: #e8b84b;
+  --gold-dim: rgba(232,184,75,0.15);
+  --sky: #60b8f0;
+  --sky-dim: rgba(96,184,240,0.12);
+  --green: #52c97a;
+  --green-dim: rgba(82,201,122,0.15);
+  --rose: #f07070;
+  --rose-dim: rgba(240,112,112,0.15);
+  --amber: #f09a3e;
+  --text: #eef0f4;
+  --muted: #8892a4;
+  --easy-bg: rgba(82,201,122,0.12);
+  --easy-fg: #52c97a;
+  --med-bg: rgba(240,154,62,0.12);
+  --med-fg: #f09a3e;
+  --hard-bg: rgba(240,112,112,0.12);
+  --hard-fg: #f07070;
 }
 
-.card{
-max-width:900px;
-margin:auto;
-padding:20px;
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px 16px 60px;
 }
 
-.hidden{display:none;}
-
-button{
-padding:12px;
-margin:5px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
+/* Ambient background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 10% 0%, rgba(96,184,240,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 90% 100%, rgba(232,184,75,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 50%, rgba(82,201,122,0.04) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
 }
 
-.choice{background:#334155;color:white;}
-.choice:hover{transform:scale(1.05);}
-
-.correct{background:#22c55e!important;animation:pulse 0.3s;}
-.wrong{background:#ef4444!important;animation:shake 0.3s;}
-
-@keyframes pulse{
-0%{transform:scale(1)}
-50%{transform:scale(1.1)}
-100%{transform:scale(1)}
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 820px;
 }
 
-@keyframes shake{
-0%{transform:translateX(0)}
-25%{transform:translateX(-5px)}
-50%{transform:translateX(5px)}
-100%{transform:translateX(0)}
+.screen {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  padding: 40px;
+  box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+  animation: screenIn 0.4s cubic-bezier(0.22,1,0.36,1);
 }
 
-.boss{
-background:#7c3aed;
-animation:flash 0.5s infinite alternate;
+@keyframes screenIn {
+  from { opacity:0; transform: translateY(16px); }
+  to   { opacity:1; transform: translateY(0); }
 }
 
-@keyframes flash{
-from{filter:brightness(1)}
-to{filter:brightness(2)}
+.hidden { display: none !important; }
+
+/* ── UTILITY ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.tag-easy   { background: var(--easy-bg); color: var(--easy-fg); }
+.tag-medium { background: var(--med-bg);  color: var(--med-fg); }
+.tag-hard   { background: var(--hard-bg); color: var(--hard-fg); }
+
+/* ── MENU ── */
+.menu-brand {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.menu-brand h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.menu-brand p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 6px;
 }
 
-.coin{
-position:absolute;
-animation:floatUp 1s ease-out forwards;
-color:gold;
-font-weight:bold;
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 24px;
 }
 
-@keyframes floatUp{
-from{transform:translateY(0);opacity:1}
-to{transform:translateY(-80px);opacity:0}
+.field { display: flex; flex-direction: column; gap: 7px; }
+
+.field label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--muted);
 }
 
+select, input[type="number"] {
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+}
+
+select:focus, input[type="number"]:focus {
+  border-color: var(--gold);
+  background: rgba(255,255,255,0.09);
+}
+
+select option { background: #1a2035; }
+
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: none;
+  border-radius: 14px;
+  padding: 15px 22px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.97rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s, box-shadow 0.18s, opacity 0.18s;
+  text-align: center;
+}
+.btn:hover  { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+.btn:active { transform: translateY(0); }
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold) 0%, #d4973a 100%);
+  color: #0c0f1a;
+}
+.btn-ghost {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+.btn-ghost:hover { background: var(--surface-hover); }
+
+.hs-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 18px;
+  border-radius: 13px;
+  background: var(--gold-dim);
+  border: 1px solid rgba(232,184,75,0.2);
+  color: #d4b96a;
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+.hs-bar strong { color: var(--gold); font-weight: 700; }
+
+/* ── STUDY MODE ── */
+.study-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.study-topbar h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.7rem;
+  color: var(--gold);
+}
+.study-counter { color: var(--muted); font-size: 0.9rem; font-weight: 500; }
+
+/* Flashcard */
+.card-scene {
+  perspective: 1200px;
+  height: 260px;
+  margin-bottom: 24px;
+  cursor: pointer;
+  user-select: none;
+}
+.flashcard {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4,0,0.2,1);
+}
+.flashcard.flipped { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  gap: 10px;
+}
+.card-front { background: var(--sky-dim); border-color: rgba(96,184,240,0.2); }
+.card-back  { background: var(--green-dim); border-color: rgba(82,201,122,0.2); transform: rotateY(180deg); }
+
+.face-hint { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.face-word { font-family: 'Cormorant Garamond', serif; font-size: 2.4rem; font-weight: 700; color: var(--text); line-height: 1.1; }
+.face-def  { font-size: 1.05rem; color: var(--text); line-height: 1.55; }
+.face-sent { font-size: 0.87rem; color: var(--muted); font-style: italic; line-height: 1.5; }
+.flip-cue  { font-size: 0.75rem; color: var(--muted); margin-top: 4px; }
+
+/* Progress dots */
+.dot-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 22px;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  transition: all 0.2s;
+}
+.dot.done    { background: rgba(232,184,75,0.5); }
+.dot.current { background: var(--sky); transform: scale(1.4); }
+
+.study-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.nav-circle {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.18s, transform 0.18s;
+}
+.nav-circle:hover { background: var(--surface-hover); transform: scale(1.08); }
+
+.study-footer {
+  display: flex;
+  justify-content: center;
+}
+
+/* ── GAME SCREEN ── */
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.stat-pill {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 10px 12px;
+  text-align: center;
+}
+.stat-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+.stat-val { font-size: 1.2rem; font-weight: 700; }
+.sv-sky  { color: var(--sky); }
+.sv-gold { color: var(--gold); }
+.sv-grn  { color: var(--green); }
+.sv-rose { color: var(--rose); }
+
+/* Accuracy bar */
+.acc-track {
+  height: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+.acc-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--sky), var(--green));
+  border-radius: 999px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* Question card */
+.q-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 26px 28px;
+  margin-bottom: 18px;
+}
+.q-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.q-prompt { font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; }
+.q-meta   { display: flex; align-items: center; gap: 8px; }
+
+.q-text { font-size: 1.35rem; line-height: 1.6; font-weight: 500; }
+.q-text.is-word {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--sky);
+}
+
+.hint-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.18s;
+  white-space: nowrap;
+}
+.hint-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+.hint-box {
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-left: 2px solid var(--gold);
+  font-size: 0.88rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.55;
+  animation: slideIn 0.25s ease;
+}
+@keyframes slideIn {
+  from { opacity:0; transform: translateY(-6px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+/* Multiple-choice grid */
+.mc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  margin-bottom: 14px;
+}
+.mc-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  padding: 15px 16px;
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.93rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.15s;
+  line-height: 1.4;
+}
+.mc-btn:not(:disabled):hover {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+  transform: translateY(-1px);
+}
+.mc-btn.is-correct {
+  background: var(--green-dim) !important;
+  border-color: var(--green) !important;
+  color: var(--green) !important;
+  animation: pulse 0.35s ease;
+}
+.mc-btn.is-wrong {
+  background: var(--rose-dim) !important;
+  border-color: var(--rose) !important;
+  color: var(--rose) !important;
+  animation: wag 0.35s ease;
+}
+
+/* Typed answer */
+.typed-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.typed-input {
+  flex: 1;
+  padding: 15px 16px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.typed-input:focus { border-color: var(--sky); }
+.typed-input.is-correct { border-color: var(--green); background: var(--green-dim); }
+.typed-input.is-wrong   { border-color: var(--rose); background: var(--rose-dim); }
+
+.submit-btn {
+  padding: 15px 22px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--gold), #d4973a);
+  color: #0c0f1a;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.18s, opacity 0.18s;
+}
+.submit-btn:hover:not(:disabled)   { transform: translateY(-2px); }
+.submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.feedback {
+  min-height: 32px;
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+.fb-ok  { color: var(--green); }
+.fb-err { color: var(--rose); }
+
+@keyframes pulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+@keyframes wag {
+  0%,100% { transform: translateX(0); }
+  25%     { transform: translateX(-5px); }
+  75%     { transform: translateX(5px); }
+}
+
+/* ── GAME OVER ── */
+.go-wrap { text-align: center; }
+.go-emoji {
+  font-size: 3.8rem;
+  display: block;
+  margin-bottom: 14px;
+  animation: pop 0.5s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes pop {
+  0%   { transform: scale(0.2); opacity: 0; }
+  60%  { transform: scale(1.15); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.go-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.go-msg { color: var(--muted); margin-bottom: 28px; font-size: 1rem; line-height: 1.6; }
+
+.score-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.score-box {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 20px;
+}
+.score-box-lbl { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 600; margin-bottom: 6px; }
+.score-box-val {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1.1;
+}
+.score-box-val.is-record { color: var(--green); }
+.record-badge {
+  display: inline-block;
+  margin-top: 5px;
+  font-size: 0.7rem;
+  background: var(--green-dim);
+  color: var(--green);
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.go-btns { display: flex; gap: 12px; }
+.go-btns .btn { flex: 1; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .screen { padding: 28px 22px; }
+  .menu-brand h1 { font-size: 2.4rem; }
+  .form-grid, .action-row, .stat-row, .mc-grid { grid-template-columns: 1fr; }
+  .stat-row { grid-template-columns: 1fr 1fr; }
+  .score-grid { grid-template-columns: 1fr 1fr; }
+  .typed-row { flex-direction: column; }
+  .q-text { font-size: 1.15rem; }
+  .q-text.is-word { font-size: 1.7rem; }
+}
 </style>
 </head>
-
 <body>
+<div class="wrap">
 
-<div class="card" id="menu">
+<!-- ══════════════════════════ MENU ══════════════════════════ -->
+<div class="screen" id="menuScreen">
+  <div class="menu-brand">
+    <h1>AP Lang Vocab</h1>
+    <p>50 Essential Words for AP Language &amp; Composition</p>
+  </div>
 
-<h1>⚡ SAT VOCAB ULTIMATE ⚡</h1>
+  <div class="form-grid">
+    <div class="field">
+      <label>Game Mode</label>
+      <select id="modeSelect" onchange="onModeChange()">
+        <option value="infinite">Infinite</option>
+        <option value="lives">Lives Mode</option>
+      </select>
+    </div>
 
-<button onclick="start()">Start Game</button>
+    <div class="field" id="livesField">
+      <label>Starting Lives</label>
+      <input type="number" id="livesInput" value="3" min="1" max="10">
+    </div>
 
-<h3>🏆 Leaderboard</h3>
-<div id="board"></div>
+    <div class="field">
+      <label>Question Format</label>
+      <select id="formatSelect" onchange="updateMenuHs()">
+        <option value="mc-word">Multiple Choice → Word</option>
+        <option value="mc-def">Multiple Choice → Definition</option>
+        <option value="typed">Type the Word</option>
+      </select>
+    </div>
 
+    <div class="field">
+      <label>Difficulty</label>
+      <select id="diffSelect" onchange="updateMenuHs()">
+        <option value="all">All Words (50)</option>
+        <option value="easy">Easy (15)</option>
+        <option value="medium">Medium (20)</option>
+        <option value="hard">Hard (15)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="action-row">
+    <button class="btn btn-gold" onclick="startGame()">▶ Play Game</button>
+    <button class="btn btn-ghost" onclick="startStudy()">📖 Study Mode</button>
+  </div>
+
+  <div class="hs-bar" id="menuHsBar"></div>
 </div>
 
-<div class="card hidden" id="game">
+<!-- ══════════════════════════ STUDY ══════════════════════════ -->
+<div class="screen hidden" id="studyScreen">
+  <div class="study-topbar">
+    <h2>Study Mode</h2>
+    <span class="study-counter"><span id="studyIdx">1</span> / <span id="studyLen">50</span></span>
+  </div>
 
-<h2>Score: <span id="score">0</span></h2>
-<h3>Coins: <span id="coins">0</span></h3>
-<h3>Prestige: ⭐ <span id="prestige">0</span></h3>
+  <div class="card-scene" id="cardScene" onclick="flipCard()" role="button" aria-label="Flip flashcard">
+    <div class="flashcard" id="flashcard">
+      <div class="card-face card-front">
+        <div class="face-hint">Word</div>
+        <span class="tag" id="studyTag"></span>
+        <div class="face-word" id="studyWord"></div>
+        <div class="flip-cue">click to reveal definition</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="face-hint">Definition</div>
+        <div class="face-def" id="studyDef"></div>
+        <div class="face-sent" id="studySent"></div>
+      </div>
+    </div>
+  </div>
 
-<h3 id="question"></h3>
+  <div class="dot-row" id="dotRow"></div>
 
-<div id="choices"></div>
+  <div class="study-nav">
+    <button class="nav-circle" onclick="studyMove(-1)" aria-label="Previous">←</button>
+    <button class="btn btn-ghost" onclick="exitStudy()" style="padding:10px 20px;font-size:0.9rem">Exit</button>
+    <button class="nav-circle" onclick="studyMove(1)"  aria-label="Next">→</button>
+  </div>
 
+  <div class="study-footer">
+    <button class="btn btn-gold" style="width:auto;padding:14px 36px" onclick="exitStudy();startGame()">▶ Start Quiz</button>
+  </div>
 </div>
+
+<!-- ══════════════════════════ GAME ══════════════════════════ -->
+<div class="screen hidden" id="gameScreen">
+
+  <div class="stat-row">
+    <div class="stat-pill">
+      <div class="stat-label">Question</div>
+      <div class="stat-val sv-sky" id="stQ">1</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-label">Score</div>
+      <div class="stat-val sv-gold" id="stScore">0</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-label">Streak</div>
+      <div class="stat-val sv-grn" id="stStreak">0</div>
+    </div>
+    <div class="stat-pill" id="livesPill">
+      <div class="stat-label">Lives</div>
+      <div class="stat-val sv-rose" id="stLives">3</div>
+    </div>
+  </div>
+
+  <div class="acc-track">
+    <div class="acc-fill" id="accFill"></div>
+  </div>
+
+  <div class="q-card">
+    <div class="q-top">
+      <div class="q-prompt" id="qPrompt"></div>
+      <div class="q-meta">
+        <span class="tag" id="qTag"></span>
+        <button class="hint-btn" id="hintBtn" onclick="revealHint()">💡 Hint</button>
+      </div>
+    </div>
+    <div id="qText"></div>
+    <div class="hint-box hidden" id="hintBox"></div>
+  </div>
+
+  <!-- Multiple Choice -->
+  <div class="mc-grid hidden" id="mcGrid"></div>
+
+  <!-- Typed -->
+  <div class="typed-row hidden" id="typedRow">
+    <input type="text" class="typed-input" id="typedInput" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="submit-btn" id="submitBtn" onclick="submitTyped()">Submit</button>
+  </div>
+
+  <div class="feedback" id="feedback"></div>
+</div>
+
+<!-- ══════════════════════════ GAME OVER ══════════════════════ -->
+<div class="screen hidden" id="gameOverScreen">
+  <div class="go-wrap">
+    <span class="go-emoji" id="goEmoji">🎉</span>
+    <div class="go-title" id="goTitle">Well done!</div>
+    <div class="go-msg"  id="goMsg"></div>
+
+    <div class="score-grid">
+      <div class="score-box">
+        <div class="score-box-lbl">Your Score</div>
+        <div class="score-box-val" id="goScore">—</div>
+      </div>
+      <div class="score-box">
+        <div class="score-box-lbl">Best Score</div>
+        <div class="score-box-val" id="goBest">—</div>
+        <div class="record-badge hidden" id="recordBadge">🏆 New Record!</div>
+      </div>
+    </div>
+
+    <div class="go-btns">
+      <button class="btn btn-ghost" onclick="backToMenu()">← Menu</button>
+      <button class="btn btn-gold"  onclick="startGame()">▶ Play Again</button>
+    </div>
+  </div>
+</div>
+
+</div><!-- end .wrap -->
 
 <script>
-
-/* ================= DATA ================= */
-
-const words=[
-{w:"abstract",d:"general; not concrete",r:"common"},
-{w:"aesthetic",d:"beauty related",r:"rare"},
-{w:"alleviate",d:"to ease pain",r:"common"},
-{w:"ambivalent",d:"mixed feelings",r:"rare"},
-{w:"apathetic",d:"no emotion",r:"common"},
-{w:"egregious",d:"extremely bad",r:"epic"},
-{w:"vindicated",d:"cleared of blame",r:"legendary"}
+/* ──────────────── DATA ──────────────── */
+const WORDS = [
+  {w:"abstract",   d:"general; not concrete",                                      s:"The artist's abstract paintings used shapes and colors to convey emotion rather than depicting real objects.",                diff:"easy"},
+  {w:"aesthetic",  d:"having to do with the appreciation of beauty",               s:"The architect had a strong aesthetic sense, preferring clean lines and natural materials in every design.",                   diff:"easy"},
+  {w:"alleviate",  d:"to ease a pain or a burden",                                 s:"The nurse administered medication to alleviate the patient's discomfort after the procedure.",                               diff:"easy"},
+  {w:"ambivalent", d:"simultaneously feeling opposing feelings; uncertain",         s:"She felt ambivalent about leaving for college — excited for independence but sad to leave her family.",                      diff:"medium"},
+  {w:"apathetic",  d:"feeling or showing little emotion",                           s:"The students were apathetic about the school election, with fewer than 20% bothering to vote.",                             diff:"medium"},
+  {w:"auspicious", d:"favorable; promising",                                        s:"The sunny weather on opening day seemed like an auspicious sign for the new business.",                                     diff:"medium"},
+  {w:"benevolent", d:"well meaning; generous",                                      s:"The benevolent donor gave millions to fund scholarships for students in need.",                                              diff:"easy"},
+  {w:"candor",     d:"sincerity; openness",                                         s:"The coach's candor was refreshing; he told players exactly what they needed to hear to improve.",                           diff:"easy"},
+  {w:"cogent",     d:"convincing; reasonable",                                      s:"Her cogent argument persuaded even the most skeptical members of the jury.",                                                 diff:"medium"},
+  {w:"comprehensive", d:"large in scope or context",                               s:"The report offered a comprehensive overview of climate trends spanning three decades.",                                       diff:"easy"},
+  {w:"contemporary", d:"current, modern; from the same time",                      s:"The museum's new wing focuses on contemporary art produced within the past two decades.",                                    diff:"easy"},
+  {w:"conviction", d:"a fixed or strong belief",                                    s:"She spoke with conviction, never wavering from her belief that justice would prevail.",                                      diff:"easy"},
+  {w:"diligent",   d:"marked by painstaking effort; hard-working",                 s:"A diligent student, Marcus spent three hours each evening reviewing his class notes.",                                       diff:"easy"},
+  {w:"dubious",    d:"doubtful; of unlikely authenticity",                          s:"The salesman's claims about the miracle cure seemed dubious to anyone with a scientific background.",                        diff:"medium"},
+  {w:"eclectic",   d:"made up of a variety of sources or styles",                  s:"Her eclectic music taste ranged from baroque classical to heavy metal to Afrobeat.",                                         diff:"medium"},
+  {w:"egregious",  d:"conspicuously bad or offensive",                              s:"The referee made an egregious error that directly cost the team the championship.",                                          diff:"hard"},
+  {w:"exculpate",  d:"to free from guilt or blame",                                 s:"New DNA evidence helped exculpate the wrongly convicted man after twelve years in prison.",                                  diff:"hard"},
+  {w:"florid",     d:"describing flowery or elaborate speech",                      s:"The politician's florid speeches, packed with metaphors and baroque phrases, thrilled his supporters.",                      diff:"hard"},
+  {w:"gratuitous", d:"given freely; unearned, unwarranted",                         s:"Critics felt the film's violence was gratuitous, adding nothing meaningful to the story.",                                  diff:"medium"},
+  {w:"hackneyed",  d:"worn-out through overuse; trite",                             s:"The essay was full of hackneyed phrases like 'think outside the box' and 'at the end of the day.'",                         diff:"hard"},
+  {w:"idealize",   d:"to consider perfect",                                         s:"Young children tend to idealize their parents, viewing them as flawless and all-knowing.",                                  diff:"easy"},
+  {w:"impartial",  d:"not in favor of one side or the other; unbiased",             s:"A good judge must remain impartial, setting aside personal feelings when weighing the evidence.",                           diff:"easy"},
+  {w:"imperious",  d:"arrogantly domineering or overbearing",                       s:"The imperious manager barked orders at staff without ever saying please or acknowledging their effort.",                     diff:"medium"},
+  {w:"inherent",   d:"inborn; built-in",                                            s:"There is an inherent risk in any extreme sport, regardless of how much safety gear you wear.",                              diff:"easy"},
+  {w:"innovative", d:"introducing something new",                                   s:"The innovative startup developed a battery technology that could fully charge a device in under a minute.",                  diff:"easy"},
+  {w:"inveterate", d:"long established; deep-rooted, habitual",                    s:"An inveterate traveler, she had visited over eighty countries before turning forty.",                                        diff:"medium"},
+  {w:"laudatory",  d:"giving praise",                                               s:"The teacher's comments were laudatory, praising every aspect of the student's essay in detail.",                            diff:"hard"},
+  {w:"maverick",   d:"one who resists adherence to a group",                        s:"The senator was a political maverick who frequently voted against his own party's platform.",                               diff:"medium"},
+  {w:"mollify",    d:"to calm or soothe",                                           s:"The manager tried to mollify the angry customer with a full refund and a sincere apology.",                                  diff:"medium"},
+  {w:"novel",      d:"strikingly new or unusual",                                   s:"Scientists made a novel discovery: a bacterium that thrives in the extreme heat of volcanic vents.",                         diff:"easy"},
+  {w:"obdurate",   d:"stubborn; inflexible",                                        s:"Despite hours of negotiation, the obdurate landlord refused to lower the rent by even a dollar.",                           diff:"hard"},
+  {w:"objectivity",d:"treating facts uninfluenced by emotion",                      s:"Good journalism requires objectivity — reporting facts without allowing personal bias to color the story.",                  diff:"easy"},
+  {w:"obstinate",  d:"stubbornly adhering to an opinion",                           s:"The obstinate toddler refused to eat anything green, no matter how creatively it was prepared.",                            diff:"hard"},
+  {w:"ornate",     d:"elaborately decorated",                                       s:"The baroque cathedral featured ornate carvings covering nearly every inch of its soaring ceiling.",                          diff:"medium"},
+  {w:"ostentatious",d:"describing a showy or pretentious display",                  s:"The CEO's ostentatious lifestyle — private jets, gold-plated furniture — drew sharp criticism from employees.",            diff:"medium"},
+  {w:"paramount",  d:"of chief concern or importance",                              s:"Patient safety is paramount in every decision made at the hospital.",                                                        diff:"easy"},
+  {w:"penitent",   d:"expressing remorse for one's misdeeds",                       s:"The penitent driver apologized at length after accidentally cutting off another car on the highway.",                        diff:"medium"},
+  {w:"pervasive",  d:"dispersed throughout",                                        s:"Smartphones have had a pervasive influence on modern culture, reshaping how people communicate.",                            diff:"easy"},
+  {w:"plausible",  d:"seemingly valid or acceptable; credible",                     s:"Her explanation sounded plausible, so the teacher granted her an extension on the assignment.",                             diff:"easy"},
+  {w:"profound",   d:"having great depth or seriousness",                           s:"Reading that novel had a profound effect on him, fundamentally changing how he viewed humanity.",                           diff:"easy"},
+  {w:"prosaic",    d:"unimaginative; dull",                                         s:"The essay was technically correct but prosaic — precise yet never making the reader feel anything.",                        diff:"hard"},
+  {w:"quandary",   d:"a state of uncertainty or perplexity",                        s:"He was in a quandary: tell the truth and lose his friend, or stay silent and feel guilty.",                                 diff:"hard"},
+  {w:"rancorous",  d:"hateful; marked by a deep-seated ill will",                   s:"The rancorous dispute between the neighbors eventually required a mediator to resolve.",                                    diff:"hard"},
+  {w:"spurious",   d:"not genuine; false; counterfeit",                             s:"The tabloid's spurious claims about the celebrity were quickly debunked by independent fact-checkers.",                     diff:"hard"},
+  {w:"stoic",      d:"indifferent to pleasure or pain; impassive",                  s:"Despite losing everything in the flood, she remained stoic, calmly making plans to rebuild.",                              diff:"hard"},
+  {w:"superfluous",d:"extra; unnecessary",                                          s:"The editor removed all superfluous details, cutting the article from two thousand words to eight hundred.",                  diff:"hard"},
+  {w:"tenuous",    d:"having little substance or strength; unsure; weak",           s:"The company's financial situation was tenuous — one bad quarter could force it into bankruptcy.",                           diff:"hard"},
+  {w:"timorous",   d:"timid; fearful about the future",                             s:"The timorous student raised her hand slowly, afraid her answer might embarrass her in front of the class.",                diff:"hard"},
+  {w:"transitory", d:"short-lived; temporary",                                      s:"Fame can be transitory — last year's viral sensation is often completely forgotten within months.",                         diff:"easy"},
+  {w:"vindicated", d:"freed from blame",                                            s:"When the real thief was caught, the falsely accused man finally felt vindicated.",                                           diff:"medium"},
 ];
 
-/* ================= STATE ================= */
+/* ──────────────── STATE ──────────────── */
+let score=0, streak=0, lives=3, total=0;
+let curWord=null, curMode="infinite", curFmt="mc-word", curDiff="all";
+let recentQ=[];
+let studyList=[], studyIdx=0;
 
-let score=0;
-let coins=0;
-let prestige=0;
-let qCount=0;
-let current;
-
-/* ================= SOUND ================= */
-
-function beep(freq){
-let ctx=new AudioContext();
-let o=ctx.createOscillator();
-o.frequency.value=freq;
-o.connect(ctx.destination);
-o.start();
-o.stop(ctx.currentTime+0.1);
+/* ──────────────── HELPERS ──────────────── */
+function getPool(){
+  const d=document.getElementById("diffSelect").value;
+  return d==="all" ? WORDS : WORDS.filter(w=>w.diff===d);
 }
 
-/* ================= GAME ================= */
-
-function start(){
-document.getElementById("menu").classList.add("hidden");
-document.getElementById("game").classList.remove("hidden");
-next();
-loadBoard();
+function hsKey(mode,fmt,diff){
+  return `apvocab_v2_${mode}_${fmt}_${diff}`;
+}
+function readHs(){ return parseInt(localStorage.getItem(hsKey(curMode,curFmt,curDiff))||"0"); }
+function writeHs(v){
+  const k=hsKey(curMode,curFmt,curDiff);
+  const old=parseInt(localStorage.getItem(k)||"0");
+  if(v>old){ localStorage.setItem(k,v); return true; }
+  return false;
 }
 
-function rarityMult(r){
-if(r==="common")return 1;
-if(r==="rare")return 1.5;
-if(r==="epic")return 2;
-return 3;
+/* ──────────────── MENU ──────────────── */
+function onModeChange(){
+  const m=document.getElementById("modeSelect").value;
+  document.getElementById("livesField").style.display = m==="lives"?"flex":"none";
+  updateMenuHs();
+}
+function updateMenuHs(){
+  const m=document.getElementById("modeSelect").value;
+  const f=document.getElementById("formatSelect").value;
+  const d=document.getElementById("diffSelect").value;
+  const v=parseInt(localStorage.getItem(hsKey(m,f,d))||"0");
+  const el=document.getElementById("menuHsBar");
+  if(v>0) el.innerHTML=`🏆 Best score on this setting: <strong>${v} correct</strong>`;
+  else el.textContent="No record yet — start playing!";
 }
 
-function next(){
-
-qCount++;
-
-let boss=qCount%8===0;
-
-current=words[Math.floor(Math.random()*words.length)];
-
-if(boss){
-document.getElementById("question").innerHTML="👹 BOSS ROUND: "+current.d;
-document.body.classList.add("boss");
-}else{
-document.getElementById("question").innerHTML=current.d;
-document.body.classList.remove("boss");
-}
-
-let choices=[current];
-
-while(choices.length<4){
-let r=words[Math.floor(Math.random()*words.length)];
-if(!choices.includes(r))choices.push(r);
-}
-
-choices.sort(()=>Math.random()-0.5);
-
-let box=document.getElementById("choices");
-box.innerHTML="";
-
-choices.forEach(c=>{
-let b=document.createElement("button");
-b.className="choice";
-b.innerText=c.w;
-
-b.onclick=()=>check(c,b,boss);
-
-box.appendChild(b);
+window.addEventListener("load",()=>{
+  onModeChange();
+  updateMenuHs();
 });
+
+/* ──────────────── STUDY MODE ──────────────── */
+function startStudy(){
+  const d=document.getElementById("diffSelect").value;
+  studyList = d==="all" ? [...WORDS] : WORDS.filter(w=>w.diff===d);
+  studyIdx=0;
+
+  document.getElementById("studyLen").textContent=studyList.length;
+
+  const dotRow=document.getElementById("dotRow");
+  dotRow.innerHTML=studyList.map((_,i)=>`<div class="dot" id="sd${i}"></div>`).join("");
+
+  show("studyScreen"); hide("menuScreen");
+  renderStudyCard();
 }
 
-function check(c,btn,boss){
+function renderStudyCard(){
+  const item=studyList[studyIdx];
+  document.getElementById("studyIdx").textContent=studyIdx+1;
+  document.getElementById("studyWord").textContent=item.w;
+  document.getElementById("studyDef").textContent=item.d;
+  document.getElementById("studySent").textContent=`"${item.s}"`;
 
-document.querySelectorAll("button").forEach(b=>b.disabled=true);
+  const tag=document.getElementById("studyTag");
+  tag.textContent=item.diff;
+  tag.className=`tag tag-${item.diff}`;
 
-let correct=c.w===current.w;
+  document.getElementById("flashcard").classList.remove("flipped");
 
-if(correct){
-
-beep(600);
-
-let gain=100*rarityMult(current.r);
-
-if(boss)gain*=3;
-
-score++;
-coins+=gain+prestige*10;
-
-btn.classList.add("correct");
-
-spawnCoin(gain);
-
-}else{
-
-beep(200);
-
-btn.classList.add("wrong");
-
-coins-=50;
-screenShake();
+  studyList.forEach((_,i)=>{
+    const dot=document.getElementById(`sd${i}`);
+    if(!dot) return;
+    dot.className="dot"+(i<studyIdx?" done":i===studyIdx?" current":"");
+  });
 }
 
-update();
-
-setTimeout(next,900);
+function flipCard(){
+  document.getElementById("flashcard").classList.toggle("flipped");
 }
 
-function spawnCoin(val){
-let d=document.createElement("div");
-d.className="coin";
-d.innerText="+"+val;
-d.style.left="50%";
-document.body.appendChild(d);
-setTimeout(()=>d.remove(),1000);
+function studyMove(dir){
+  studyIdx=Math.max(0,Math.min(studyList.length-1,studyIdx+dir));
+  renderStudyCard();
 }
 
-function screenShake(){
-document.body.style.transform="translateX(10px)";
-setTimeout(()=>document.body.style.transform="translateX(0)",100);
+function exitStudy(){
+  hide("studyScreen"); show("menuScreen");
 }
 
-function update(){
+/* ──────────────── GAME ──────────────── */
+function startGame(){
+  curMode=document.getElementById("modeSelect").value;
+  curFmt=document.getElementById("formatSelect").value;
+  curDiff=document.getElementById("diffSelect").value;
+  lives=parseInt(document.getElementById("livesInput").value)||3;
+  score=0; streak=0; total=0; recentQ=[];
 
-document.getElementById("score").innerText=score;
-document.getElementById("coins").innerText=coins;
-document.getElementById("prestige").innerText=prestige;
+  const lp=document.getElementById("livesPill");
+  if(curMode==="lives"){ lp.style.display=""; document.getElementById("stLives").textContent=lives; }
+  else lp.style.display="none";
 
-if(score>=10){
-prestige++;
-score=0;
-coins=0;
-alert("🔥 PRESTIGE UP!");
-save();
-}
-}
-
-function save(){
-let board=JSON.parse(localStorage.getItem("board")||"[]");
-board.push(prestige);
-board.sort((a,b)=>b-a);
-board=board.slice(0,5);
-localStorage.setItem("board",JSON.stringify(board));
-loadBoard();
+  hide("menuScreen"); hide("gameOverScreen"); show("gameScreen");
+  nextQuestion();
 }
 
-function loadBoard(){
-let board=JSON.parse(localStorage.getItem("board")||"[]");
-document.getElementById("board").innerHTML=
-board.map((b,i)=>`#${i+1} Prestige ${b}`).join("<br>");
+function pickWord(){
+  const pool=getPool().filter(w=>!recentQ.includes(w.w));
+  const src=pool.length>0?pool:getPool();
+  return src[Math.floor(Math.random()*src.length)];
 }
 
+function nextQuestion(){
+  curWord=pickWord();
+  recentQ.push(curWord.w);
+  if(recentQ.length>8) recentQ.shift();
+
+  document.getElementById("feedback").textContent="";
+  document.getElementById("feedback").className="feedback";
+  document.getElementById("hintBox").classList.add("hidden");
+  document.getElementById("hintBtn").textContent="💡 Hint";
+
+  // Stats
+  document.getElementById("stQ").textContent=total+1;
+  document.getElementById("stScore").textContent=score;
+  document.getElementById("stStreak").textContent=streak;
+
+  // Accuracy bar
+  const acc = total===0 ? 0 : (score/total)*100;
+  document.getElementById("accFill").style.width=`${acc}%`;
+
+  // Difficulty tag
+  const qt=document.getElementById("qTag");
+  qt.textContent=curWord.diff;
+  qt.className=`tag tag-${curWord.diff}`;
+
+  // Question prompt & text
+  const isWord = curFmt==="mc-word" || curFmt==="typed";
+  document.getElementById("qPrompt").textContent=
+    isWord ? "Which word matches this definition?" : "Which definition matches this word?";
+
+  const qEl=document.getElementById("qText");
+  if(isWord){
+    qEl.textContent=curWord.d;
+    qEl.className="q-text";
+  } else {
+    qEl.textContent=curWord.w;
+    qEl.className="q-text is-word";
+  }
+
+  document.getElementById("hintBox").textContent=`"${curWord.s}"`;
+
+  if(curFmt==="typed") buildTyped();
+  else buildMC();
+}
+
+function buildMC(){
+  show("mcGrid"); hide("typedRow");
+  const isWord = curFmt==="mc-word";
+  const pool=getPool();
+  let opts=[curWord];
+  while(opts.length<4){
+    const r=pool[Math.floor(Math.random()*pool.length)];
+    if(!opts.find(o=>o.w===r.w)) opts.push(r);
+  }
+  opts.sort(()=>Math.random()-0.5);
+
+  const grid=document.getElementById("mcGrid");
+  grid.innerHTML="";
+  opts.forEach(opt=>{
+    const b=document.createElement("button");
+    b.className="mc-btn";
+    b.textContent = isWord ? opt.w : opt.d;
+    b.onclick=()=>evalMC(opt.w===curWord.w, b);
+    grid.appendChild(b);
+  });
+}
+
+function evalMC(correct, clicked){
+  document.querySelectorAll(".mc-btn").forEach(b=>b.disabled=true);
+  total++;
+
+  // Always highlight the correct answer
+  document.querySelectorAll(".mc-btn").forEach(b=>{
+    const isWord=curFmt==="mc-word";
+    const match = isWord ? b.textContent===curWord.w : b.textContent===curWord.d;
+    if(match) b.classList.add("is-correct");
+  });
+
+  const fb=document.getElementById("feedback");
+  if(correct){
+    score++; streak++;
+    fb.className="feedback fb-ok";
+    fb.textContent = streak>0&&streak%5===0 ? `✅ Correct! 🔥 ${streak} streak!` : "✅ Correct!";
+  } else {
+    streak=0;
+    clicked.classList.remove("is-correct");
+    clicked.classList.add("is-wrong");
+    fb.className="feedback fb-err";
+    fb.textContent="❌ Incorrect";
+    if(curMode==="lives") lives--;
+    updateLives();
+  }
+  updateStats();
+  setTimeout(nextOrEnd, 1500);
+}
+
+function buildTyped(){
+  hide("mcGrid"); show("typedRow");
+  const inp=document.getElementById("typedInput");
+  inp.value=""; inp.className="typed-input"; inp.disabled=false;
+  document.getElementById("submitBtn").disabled=false;
+  inp.onkeydown=e=>{ if(e.key==="Enter") submitTyped(); };
+  setTimeout(()=>inp.focus(),60);
+}
+
+function submitTyped(){
+  const inp=document.getElementById("typedInput");
+  const val=inp.value.trim().toLowerCase();
+  if(!val) return;
+
+  inp.disabled=true;
+  document.getElementById("submitBtn").disabled=true;
+  total++;
+
+  const correct = val===curWord.w.toLowerCase();
+  const fb=document.getElementById("feedback");
+
+  if(correct){
+    inp.classList.add("is-correct");
+    score++; streak++;
+    fb.className="feedback fb-ok";
+    fb.textContent= streak>0&&streak%5===0 ? `✅ Correct! 🔥 ${streak} streak!` : "✅ Correct!";
+  } else {
+    inp.classList.add("is-wrong");
+    streak=0;
+    fb.className="feedback fb-err";
+    fb.innerHTML=`❌ Incorrect — Answer: <strong>${curWord.w}</strong>`;
+    if(curMode==="lives") lives--;
+    updateLives();
+  }
+  updateStats();
+  setTimeout(nextOrEnd, 1800);
+}
+
+function updateStats(){
+  document.getElementById("stScore").textContent=score;
+  document.getElementById("stStreak").textContent=streak;
+  document.getElementById("stQ").textContent=total;
+}
+function updateLives(){
+  if(curMode==="lives") document.getElementById("stLives").textContent=lives;
+}
+function nextOrEnd(){
+  if(curMode==="lives"&&lives<=0) endGame();
+  else nextQuestion();
+}
+function revealHint(){
+  document.getElementById("hintBox").classList.remove("hidden");
+  document.getElementById("hintBtn").textContent="📖 Shown";
+}
+
+/* ──────────────── GAME OVER ──────────────── */
+function endGame(){
+  hide("gameScreen"); show("gameOverScreen");
+  const pct=total>0?score/total:0;
+  let emoji,title,msg;
+  if(pct>=0.9)      {emoji="🏆";title="Outstanding!";  msg="Near-perfect vocabulary mastery.";}
+  else if(pct>=0.75){emoji="🎉";title="Excellent!";    msg="Strong command of AP Lang vocabulary.";}
+  else if(pct>=0.55){emoji="💪";title="Good Effort!";  msg="Solid foundation — keep reviewing the tricky ones.";}
+  else              {emoji="📚";title="Keep Studying!"; msg="Review the word list and try again — you've got this.";}
+
+  document.getElementById("goEmoji").textContent=emoji;
+  document.getElementById("goTitle").textContent=title;
+  document.getElementById("goMsg").textContent=`${msg} You got ${score} of ${total} correct.`;
+  document.getElementById("goScore").textContent=`${score}/${total}`;
+
+  const isRecord=writeHs(score);
+  const best=readHs();
+  const bestEl=document.getElementById("goBest");
+  bestEl.textContent=best>0?`${best}`:"—";
+  if(isRecord&&score>0){
+    bestEl.classList.add("is-record");
+    document.getElementById("recordBadge").classList.remove("hidden");
+  } else {
+    bestEl.classList.remove("is-record");
+    document.getElementById("recordBadge").classList.add("hidden");
+  }
+}
+
+function backToMenu(){
+  hide("gameOverScreen"); show("menuScreen"); updateMenuHs();
+}
+
+/* ──────────────── DOM UTILS ──────────────── */
+function show(id){ document.getElementById(id).classList.remove("hidden"); }
+function hide(id){ document.getElementById(id).classList.add("hidden"); }
 </script>
-
 </body>
 </html>
