@@ -550,16 +550,17 @@ function checkAnswer(correct,button){
 
         let correctAnswer;
 
-        // If user is matching definitions to words
-        if(currentFormat === "definition"){
+        if(currentFormat === "word"){
 
-            // Show the correct definition
-            correctAnswer = currentCorrect.definition;
-
-        }else{
-
-            // Show the correct word
+            // Definition -> Word
+            // Reveal the correct WORD
             correctAnswer = currentCorrect.word;
+        
+        }else{
+        
+            // Word -> Definition
+            // Reveal the correct DEFINITION
+            correctAnswer = currentCorrect.definition;
         }
 
         feedback.innerHTML = `
