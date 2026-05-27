@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAT Vocab Challenge</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        background: linear-gradient(135deg, #0f172a, #1e293b);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 800px;
+    }
+
+    .card {
+        background: rgba(255,255,255,0.05);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 0 30px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 3rem;
+        color: #facc15;
+    }
+
+    .subtitle {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #cbd5e1;
+    }
+
+    .menu-section {
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+    }
+
+    select, input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        font-size: 1rem;
+    }
+
+    button {
+        width: 100%;
+        padding: 15px;
+        margin-top: 12px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        transform: scale(1.02);
+    }
+
+    .start-btn {
+        background: #facc15;
+        color: black;
+    }
+
+    .choice-btn {
+        background: #334155;
+        color: white;
+    }
+
+    .choice-btn:hover {
+        background: #475569;
+    }
+
+    .correct {
+        background: #16a34a !important;
+    }
+
+    .wrong {
+        background: #dc2626 !important;
+    }
+
+    .stats {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 1.1rem;
+    }
+
+    .question-box {
+        background: rgba(255,255,255,0.08);
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+    .question-title {
+        color: #facc15;
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+    }
+
+    .question-text {
+        font-size: 1.4rem;
+        line-height: 1.5;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .feedback {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 1.3rem;
+        font-weight: bold;
+    }
+
+    .game-over {
+        text-align: center;
+    }
+
+    .game-over h2 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        color: #f87171;
+    }
+
+    .final-score {
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 600px) {
+        h1 {
+            font-size: 2rem;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- MENU -->
+    <div class="card" id="menuScreen">
+        <h1>⚡ SAT Vocab Challenge ⚡</h1>
+        <p class="subtitle">AP Language & Composition</p>
+
+        <div class="menu-section">
+            <label>Question Format</label>
+            <select id="formatSelect">
+                <option value="word">Definition → Word</option>
+                <option value="definition">Word → Definition</option>
+            </select>
+        </div>
+
+        <div class="menu-section">
+            <label>Game Mode</label>
+            <select id="modeSelect">
+                <option value="infinite">Infinite</option>
+                <option value="lives">Lives Mode</option>
+            </select>
+        </div>
+
+        <div class="menu-section">
+            <label>Lives</label>
+            <input type="number" id="livesInput" value="3" min="1">
+        </div>
+
+        <button class="start-btn" onclick="startGame()">Start Game</button>
+    </div>
+
+    <!-- GAME -->
+    <div class="card hidden" id="gameScreen">
+
+        <div class="stats">
+            <div>⭐ Score: <span id="score">0</span></div>
+            <div>🔥 Streak: <span id="streak">0</span></div>
+            <div id="livesDisplay">❤️ 3</div>
+        </div>
+
+        <div class="question-box">
+            <div class="question-title" id="questionTitle"></div>
+            <div class="question-text" id="questionText"></div>
+        </div>
+
+        <div id="choices"></div>
+
+        <div class="feedback" id="feedback"></div>
+    </div>
+
+    <!-- GAME OVER -->
+    <div class="card hidden game-over" id="gameOverScreen">
+        <h2>Game Over</h2>
+
+        <div class="final-score">
+            Final Score: <span id="finalScore"></span>
+        </div>
+
+        <p id="finalMessage"></p>
+
+        <button class="start-btn" onclick="restartGame()">
+            Play Again
+        </button>
+    </div>
+
+</div>
+
+<script>
+
+const vocabData = [
+    // PASTE YOUR WORDS HERE
+
+    {
+        word: "abate",
+        definition: "to become less intense"
+    },
+    {
+        word: "candid",
+        definition: "truthful and straightforward"
+    },
+    {
+        word: "deplore",
+        definition: "to strongly disapprove of"
+    },
+    {
+        word: "eloquent",
+        definition: "fluent or persuasive in speaking"
+    },
+    {
+        word: "futile",
+        definition: "incapable of producing a result"
+    }
+
+    // ADD THE REST OF YOUR 50 WORDS
+];
+
+let score = 0;
+let streak = 0;
+let lives = 3;
+let totalQuestions = 0;
+
+let currentCorrect = "";
+let currentMode = "";
+let currentFormat = "";
+
+function startGame() {
+
+    currentMode = document.getElementById("modeSelect").value;
+    currentFormat = document.getElementById("formatSelect").value;
+
+    lives = parseInt(document.getElementById("livesInput").value);
+
+    score = 0;
+    streak = 0;
+    totalQuestions = 0;
+
+    document.getElementById("menuScreen").classList.add("hidden");
+    document.getElementById("gameOverScreen").classList.add("hidden");
+    document.getElementById("gameScreen").classList.remove("hidden");
+
+    updateStats();
+    generateQuestion();
+}
+
+function generateQuestion() {
+
+    const questionIndex = Math.floor(Math.random() * vocabData.length);
+    const correct = vocabData[questionIndex];
+
+    currentCorrect = correct;
+
+    let choices = [correct];
+
+    while (choices.length < 4) {
+
+        const randomWord =
+            vocabData[Math.floor(Math.random() * vocabData.length)];
+
+        if (!choices.includes(randomWord)) {
+            choices.push(randomWord);
+        }
+    }
+
+    choices.sort(() => Math.random() - 0.5);
+
+    const questionTitle = document.getElementById("questionTitle");
+    const questionText = document.getElementById("questionText");
+    const choicesDiv = document.getElementById("choices");
+
+    choicesDiv.innerHTML = "";
+    document.getElementById("feedback").innerHTML = "";
+
+    if (currentFormat === "word") {
+
+        questionTitle.innerText =
+            "Which word matches this definition?";
+
+        questionText.innerText = correct.definition;
+
+        choices.forEach(choice => {
+
+            const button = document.createElement("button");
+
+            button.className = "choice-btn";
+            button.innerText = choice.word;
+
+            button.onclick = () =>
+                checkAnswer(choice.word === correct.word, button);
+
+            choicesDiv.appendChild(button);
+        });
+
+    } else {
+
+        questionTitle.innerText =
+            "Which definition matches this word?";
+
+        questionText.innerText = correct.word;
+
+        choices.forEach(choice => {
+
+            const button = document.createElement("button");
+
+            button.className = "choice-btn";
+            button.innerText = choice.definition;
+
+            button.onclick = () =>
+                checkAnswer(
+                    choice.definition === correct.definition,
+                    button
+                );
+
+            choicesDiv.appendChild(button);
+        });
+    }
+}
+
+function checkAnswer(correct, button) {
+
+    const feedback = document.getElementById("feedback");
+
+    const buttons =
+        document.querySelectorAll(".choice-btn");
+
+    buttons.forEach(btn => btn.disabled = true);
+
+    totalQuestions++;
+
+    if (correct) {
+
+        score++;
+        streak++;
+
+        button.classList.add("correct");
+
+        feedback.innerHTML = "✅ Correct!";
+
+    } else {
+
+        streak = 0;
+
+        button.classList.add("wrong");
+
+        feedback.innerHTML =
+            `❌ Incorrect<br><br>
+            Correct Answer:<br>
+            <strong>${currentCorrect.word}</strong>`;
+
+        if (currentMode === "lives") {
+            lives--;
+        }
+    }
+
+    updateStats();
+
+    setTimeout(() => {
+
+        if (currentMode === "lives" && lives <= 0) {
+            endGame();
+        } else {
+            generateQuestion();
+        }
+
+    }, 1500);
+}
+
+function updateStats() {
+
+    document.getElementById("score").innerText = score;
+    document.getElementById("streak").innerText = streak;
+
+    if (currentMode === "lives") {
+        document.getElementById("livesDisplay")
+            .innerText = "❤️ " + lives;
+    } else {
+        document.getElementById("livesDisplay")
+            .innerText = "♾️ Infinite";
+    }
+}
+
+function endGame() {
+
+    document.getElementById("gameScreen")
+        .classList.add("hidden");
+
+    document.getElementById("gameOverScreen")
+        .classList.remove("hidden");
+
+    document.getElementById("finalScore")
+        .innerText = `${score} / ${totalQuestions}`;
+
+    const percent = score / totalQuestions;
+
+    let message = "";
+
+    if (percent >= 0.9) {
+        message = "🏆 Incredible work!";
+    }
+    else if (percent >= 0.7) {
+        message = "📚 Great job!";
+    }
+    else if (percent >= 0.5) {
+        message = "💪 Keep practicing!";
+    }
+    else {
+        message = "🔄 Review and try again!";
+    }
+
+    document.getElementById("finalMessage")
+        .innerText = message;
+}
+
+function restartGame() {
+
+    document.getElementById("gameOverScreen")
+        .classList.add("hidden");
+
+    document.getElementById("menuScreen")
+        .classList.remove("hidden");
+}
+
+</script>
+
+</body>
+</html>
