@@ -549,10 +549,20 @@ function checkAnswer(correct,button){
 
         button.classList.add("wrong");
 
+        let correctAnswer = "";
+
+        if(currentFormat==="word"){
+            // Definition -> Word
+            correctAnswer = currentCorrect.word;
+        }else{
+            // Word -> Definition
+            correctAnswer = currentCorrect.definition;
+        }
+
         feedback.innerHTML=
         `❌ Incorrect<br><br>
         Correct Answer:<br>
-        <strong>${currentCorrect.word}</strong>`;
+        <strong>${correctAnswer}</strong>`;
 
         if(currentMode==="lives"){
             lives--;
